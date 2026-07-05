@@ -1,11 +1,19 @@
-provider "aws" {
-  region = "us-east-1"
+module "s3" {
+    source = "./module/s3"
+    bucket_name = var.bucket_name
 }
 
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = var.bucket_name
+module "ec2" {
+    source = "./module/ec2"
+    ami_value = var.ami_value
+    instance_type = var.instance_type
+    key_name = var.key_name
 }
-resource "aws_instance" "my_ec2" {
-  ami = var.ami_value
-  instance_type = var.instance_type
+
+module "network" {
+    source = "./module/network"
+}
+
+module "dynamoDB" {
+    source = "./module/dynamoDB"
 }
